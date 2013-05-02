@@ -1,6 +1,6 @@
 {
     "name": "colour",
-    "description": "A cored, fixed, documented and optimized version of the popular `colors.js`: Get colors in your node.js console like what",
+    "description": "A cored, fixed, documented and optimized version of the popular `colors.js`: Get colors in your node.js console like what...",
     "version": "0.7.0",
     "author": "Daniel Wirtz <dcode@dcode.io>",
     "keywords": [ "ansi", "terminal", "colors" ],
