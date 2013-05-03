@@ -315,12 +315,8 @@
     }));
 
     function strip() {
-        if (colour.mode == 'console') {
-            return this.replace(/\x1B\[\d+m/g, '');
-        } else if (colour.mode == 'browser' || colour.mode == 'browser-css') {
-            return this.replace(/<\/?(?:span|u|i|u|del)\b[^>]*>/g, '');
-        }
-        return this+'';
+        return this.replace(/\x1B\[\d+m/g, '')
+                   .replace(/<\/?(?:span|u|i|u|del)\b[^>]*>/g, '');
     }
 
     addProperty('strip', strip);

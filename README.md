@@ -88,7 +88,7 @@ More features
 * node.js/CommonJS compatible
 * RequireJS/AMD compatible
 * Browser/shim compatible
-* Closure Compiler externs included
+* Closure Compiler [externs included](https://github.com/dcodeIO/colour.js/blob/master/externs/colour.js)
 * Zero dependencies
 
 Credits
