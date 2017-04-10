@@ -1,5 +1,9 @@
 ![colour.js - ANSI terminal colors](https://raw.github.com/dcodeIO/colour.js/master/colour.png)
 ===========
+
+This fork of colour.js doesn't extend the String prototype.
+
+
 A cored, fixed, documented and optimized version of the popular [colors.js](https://github.com/Marak/colors.js). Can be
 used as a drop-in replacement, also works correctly in the browser, provides a CSS mode and has been compiled through
 Closure Compiler using advanced optimizations. Additionally, nearly every issue and pull request on the original has
@@ -11,7 +15,7 @@ Installation
 
 Usage
 -----
-This package extends the global String prototype with additional getters that apply terminal colors to your texts.
+This package provides a set of methods that apply terminal colors to your texts.
 Available styles are:
 
 * **Emphasis:** bold, italic, underline, inverse
@@ -22,21 +26,15 @@ Available styles are:
 
 ```js
 var colour = require('colour');
-console.log('hello'.green); // outputs green text
-console.log('i like cake and pies'.underline.red) // outputs red underlined text
-console.log('inverse the color'.inverse); // inverses the color
-console.log('OMG Rainbows!'.rainbow); // rainbow (ignores spaces)
-```
-
-#### Or: As a drop-in replacement for `colors`
-```js
-var /* just name it */ colors = require('colour');
-...
+console.log(colour.green('hello')); // outputs green text
+console.log(colour.red(colour.underline('i like cake and pies'))) // outputs red underlined text
+console.log(colour.inverse('inverse the color')); // inverses the color
+console.log(colour.rainbow('OMG Rainbows!')); // rainbow (ignores spaces)
 ```
 
 Custom themes
 -------------
-Its also possible to define your own themes by creating new getters on the String object. Example:
+Its also possible to define your own themes. Example:
 
 ```js
 var colour = require('colour');
@@ -53,10 +51,8 @@ colour.setTheme({
   error: 'red bold' // Again, two styles
 });
 
-console.log("this is an error".error); // outputs bold red text
-console.log("this is a warning".warn); // outputs underlined yellow text
-
-console.log(colour.green("this is green")); // Alternatively
+console.log(colour.error("this is an error")); // outputs bold red text
+console.log(colour.warn("this is a warning")); // outputs underlined yellow text
 ```
 
 Console, browser and browser-css mode
@@ -68,19 +64,6 @@ colour.mode = 'none'; // No colors at all
 colour.mode = 'console'; // Adds terminal colors (default on node.js)
 colour.mode = 'browser'; // Adds HTML colors (default in browsers)
 colour.mode = 'browser-css'; // Adds special CSS (see examples/example.css)
-```
-
-Uninstalling / reinstalling on the global scope
------------------------------------------------
-If you have a reason to use a fresh String prototype in your application, you may also revert all extensions made.
-
-```js
-var colour = require('colour');
-...
-colour.uninstall(); // Removes all custom properties from the String prototype
-...
-colour.install(); // Re-installs them
-...
 ```
 
 More features
