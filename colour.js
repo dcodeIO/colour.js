@@ -128,7 +128,7 @@
     var definedGetters = {};
 
     /**
-     * Prototypes the string object to have additional properties that wraps the current string in colours when accessed.
+     * Provides methods on the colour namespace.
      * @param {string} col Colour / property name
      * @param {function(string):string} func Wrapper function
      * @private
@@ -138,55 +138,7 @@
         colour[col] = function(str) {
             return func.apply(str);
         };
-        // And on top of all strings
-        try {
-            String.prototype.__defineGetter__(col, func);
-            definedGetters[col] = func;
-        } catch (e) {} // #25
     }
-    
-    /**
-     * Whether colour are currently installed on the global scope.
-     * @type {boolean}
-     * @private
-     **/
-    var installed = true;
-
-    /**
-     * Uninstalls colour from the global scope.
-     * @returns {boolean} true if successfully uninstalled, false if already uninstalled
-     * @expose
-     */
-    colour.uninstall = function() { // #41
-        if (installed) {
-            Object.keys(definedGetters).forEach(function(color) {
-                try {
-                    String.prototype.__defineGetter__(color, null);
-                } catch (e) {
-                    delete String.prototype[color];
-                }
-            });
-            installed = false;
-            return true;
-        }
-        return false;
-    };
-
-    /**
-     * Reinstalls colour on the global scope.
-     * @returns {boolean} true if successfully reinstalled, false if already installed
-     * @expose
-     */
-    colour.install = function() {
-        if (!installed) {
-            Object.keys(definedGetters).forEach(function(color) {
-                String.prototype.__defineGetter__(color, definedGetters[color]);
-            });
-            installed = true;
-            return true;
-        }
-        return false;
-    };
 
     /**
      * Applies a style to a string.
@@ -215,26 +167,11 @@
     var rainbowColours = ['red', 'yellow', 'green', 'blue', 'magenta'];
 
     /**
-     * String properties that should never be overwritten.
-     * @type {!Array.<string>}
-     * @const
-     */
-    var prototypeBlacklist = [
-        '__defineGetter__', '__defineSetter__', '__lookupGetter__', '__lookupSetter__', 'charAt', 'constructor',
-        'hasOwnProperty', 'isPrototypeOf', 'propertyIsEnumerable', 'toLocaleString', 'toString', 'valueOf', 'charCodeAt',
-        'indexOf', 'lastIndexof', 'length', 'localeCompare', 'match', 'replace', 'search', 'slice', 'split', 'substring',
-        'toLocaleLowerCase', 'toLocaleUpperCase', 'toLowerCase', 'toUpperCase', 'trim', 'trimLeft', 'trimRight'
-    ];
-
-    /**
      * Applies a theme.
      * @param {!Object} theme Theme to apply
      */
     function applyTheme(theme) {
         Object.keys(theme).forEach(function(prop) {
-            if (prototypeBlacklist.indexOf(prop) >= 0) {
-                return;
-            }
             if (typeof theme[prop] == 'string') {
                 // Multiple colours white-space seperated #45, e.g. "red bold", #18
                 theme[prop] = theme[prop].split(' ');
